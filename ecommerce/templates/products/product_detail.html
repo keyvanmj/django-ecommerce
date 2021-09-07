@@ -1,0 +1,335 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load bootstrap4 %}
+{% load thumbnail %}
+{% block title %}
+    Product Detail
+{% endblock %}
+{% block content %}
+
+    <body class="index-page sidebar-collapse">
+
+    <!-- responsive-header -->
+    {% render_partial 'responsive_nav' %}
+    <!-- responsive-header -->
+
+    <div class="wrapper default">
+        <!-- header -->
+        {% include 'shared/header.html' %}
+        <!-- header -->
+        <!-- main -->
+        <main class="single-product default">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <nav>
+                            <!-- breadcrumb section -->
+                            <div class="breadcrumb">
+                                <li><a href="/">Home</a></li>
+                                {% for slug,title in breadcrumbs %}
+                                    <li>{{ title }}</li>
+                                {% endfor %}
+                            <li>{{ products.title }}</li>
+
+                            </div>
+                            <!-- end breadcrumb section -->
+{% if messages %}
+<ul class="alert alert-success">
+    {% for message in messages %}
+
+    <li{% if message.success %} class="{{ message.success }}"{% endif %}>{{ message }}</li>
+
+    {% endfor %}
+</ul>
+{% endif %}
+                        </nav>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <article class="product">
+
+                            <!--slider -->
+
+
+                            <div class="container">
+                                <div class="row">
+
+                                    <div class="col-md-6 ml-auto">
+                                        <div class="card page-carousel">
+
+                                            <div id="carouselExampleIndicators" class="carousel slide"
+                                                 data-ride="carousel">
+                                                <ol class="carousel-indicators">
+                                                    {% for img in products.Image.all %}
+                                                        <li data-target="#carouselExampleIndicators"
+                                                            data-slide-to="0"
+                                                            class="{% if forloop.first %}active{% endif %}"></li>
+                                                    {% endfor %}
+
+                                                </ol>
+
+                                                <div class="carousel-inner" role="listbox">
+                                                    {% for image in object.Image.all %}
+                                                        {% if products.Image.first %}
+                                                            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+
+                                                                {% thumbnail image.image "400x250" as img %}
+                                                                    <img class="d-block img-fluid"
+                                                                         src="{{ img.url }}" alt="slider"
+                                                                         style="width: 688px;height: 400px">
+                                                                {% endthumbnail %}
+
+
+                                                            </div>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                </div>
+                                                {% if products.Image.count > 1 %}
+
+                                                    <a class="left carousel-control carousel-control-prev"
+                                                       href="#carouselExampleIndicators" role="button"
+                                                       data-slide="next">
+                                                        <span class="fa fa-angle-left"></span>
+                                                        <span class="sr-only">بعدی</span>
+                                                    </a>
+                                                    <a class="right carousel-control carousel-control-next"
+                                                       href="#carouselExampleIndicators" role="button"
+                                                       data-slide="prev">
+                                                        <span class="fa fa-angle-right"></span>
+                                                        <span class="sr-only">قبلی</span>
+                                                    </a>
+                                                {% else %}
+
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- end slider -->
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12 mr-auto mb-auto">
+                                        <div class="product-title default">
+                                            <h2 class="text-dark">
+                                                {{ products.title }}
+                                            </h2>
+                                        </div>
+                                        <div class="product-directory default">
+                                            <ul>
+                                                <li>
+                                                    <span>برند</span> :
+                                                    <span class="product-brand-title">{{ object.brand }}</span>
+                                                </li>
+                                                <li>
+                                                    <span>دسته‌بندی</span> :
+                                                    <p class="btn-link-border">
+                                                        {{ products.category }}
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="product-variants default">
+                                            <span><i class="fa fa-bar-chart-o"></i> بازدید: </span>
+                                            <span class="ml-5">{{ object.hits.count }} بازدید </span>
+
+
+                                            {% if request.user in products.favourite.all %}
+                                                <h5><a href="{% url 'removefavourite'  products.pk %}" class="border-bottom"
+                                                   data-toggle="tooltip" data-placement="top"
+                                                   title="حذف کردن از موردعلاقه ها"><i class="fa fa-heart" style="color: red"></i></a>
+                                                </h5>
+
+
+
+                                            {% else %}
+                                                <h5><a href="{% url 'addtofavourite'  products.pk %}" class="add-favorites
+                                                 border-bottom" data-toggle="tooltip" data-placement="top"
+                                                   title="افزودن به موردعلاقه ها"><i class="fa fa-heart-o"></i></a>
+                                                </h5>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="product-delivery-seller default">
+                                            <p>
+                                                <i class="now-ui-icons shopping_shop"></i>
+                                                <span>فروشنده:‌</span>
+                                                <a href="#" class="btn-link-border">{{ products.seller }}</a>
+                                            </p>
+                                        </div>
+                                        <div class="price-product defualt">
+                                            <div class="price-value fa fa-money">
+                                                <span> {{ products.price }} </span>
+                                                <span class="price-currency">تومان</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-add default">
+                                            <div class="parent-btn">
+                                                <a href="{% url 'addtocart' products.id %}"
+                                                   class="dk-btn dk-btn-grey">
+                                                    افزودن به سبد خرید
+                                                    <i class="now-ui-icons shopping_cart-simple"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 center-breakpoint">
+
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="col-12 default">
+                        <div class="product-tabs default">
+                            <div class="box-tabs default">
+                                <ul class="nav" role="tablist">
+                                    <li class="box-tabs-tab">
+                                        <a class="active bg-light" data-toggle="tab" href="#desc" role="tab"
+                                           aria-expanded="true">
+                                            <i class="fa fa-file-text"></i>توضیحات
+                                        </a>
+                                    </li>
+                                    <li class="box-tabs-tab">
+                                        <a class="bg-light" data-toggle="tab" href="#params" role="tab" aria-expanded="false">
+                                            <i class="fa fa-info"></i> مشخصات
+                                        </a>
+                                    </li>
+                                    <li class="box-tabs-tab">
+                                        <a class="bg-light" data-toggle="tab" href="#comments" role="tab" aria-expanded="false">
+                                            <i class="fa fa-comments"></i> نظرات کاربران
+                                        </a>
+                                    </li>
+                                    <li class="box-tabs-tab">
+                                        <a class="bg-light" data-toggle="tab" href="#questions" role="tab" aria-expanded="false">
+                                            <i class="fa fa-commenting"></i>ارسال نظر
+                                        </a>
+                                    </li>
+                                    <li class="box-tabs-tab">
+                                        <a class="bg-light" data-toggle="tab" href="#tags" role="tab" aria-expanded="false">
+                                            <i class="fa fa-tags"></i> برچسب ها
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="card-body default">
+                                    <!-- Tab panes -->
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="desc" role="tabpanel" aria-expanded="true">
+                                            <p>{{ products.descriptions|linebreaksbr }}</p>
+
+                                        </div>
+                                        <div class="tab-pane params" id="params" role="tabpanel"
+                                             aria-expanded="false">
+                                            <article>
+                                                <p>{{ products.specification|linebreaks }}</p>
+                                            </article>
+                                        </div>
+                                        <div class="tab-pane comment-body" id="comments" role="tabpanel"
+                                             aria-expanded="false">
+                                            <article>
+                                                <h2 class="param-title">
+                                                    نظرات کاربران
+                                                    {% if comments %}
+                                                        <span>({{ comments.count }}) نظر </span>
+                                                    {% endif %}
+
+                                                </h2>
+                                                <div class="container">
+                                                    <div class="row pre-scrollable">
+                                                        <div class="col-md-8">
+                                                            {% for comment in comments %}
+                                                                <div class="comment-body">
+                                                                <div class="media g-mb-30 media-comment">
+                                                                    {% thumbnail comment.author.profile.image '350x250' as img %}
+                                                                        <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
+                                                                             src="{{ img.url }}"
+                                                                             alt="Image Description">
+                                                                    {% endthumbnail %}
+                                                                    <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                                                                        <span class="g-color-gray-dark-v4 g-font-size-12 pull-left">{{ comment.publish|timesince }}</span>
+                                                                        <div class="g-mb-15">
+                                                                            <h5 class="h5 g-color-gray-dark-v1 mb-0">{{ comment.author }}:</h5>
+                                                                        </div>
+                                                                        <p>{{ comment.content }}</p>
+                                                                    </div>
+                                                                </div>
+                                                            {% empty %}
+                                                                <p>هیچ نظری برای نمایش وجود ندارد</p>
+                                                            {% endfor %}
+
+                                                            </div>
+                                                        </div>
+
+
+                                            </article>
+                                        </div>
+                                        <div class="tab-pane form-comment" id="questions" role="tabpanel"
+                                             aria-expanded="false">
+                                            {% if request.user.is_authenticated %}
+                                                <article>
+                                                    <h2 class="param-title">
+                                                        افزودن نظر
+                                                    </h2>
+
+
+                                                    <form class="col-md-6" method="post" id="myForm">
+                                                        {% csrf_token %}
+                                                        {% bootstrap_form form %}
+                                                        <button class="btn btn-success" type="submit">ارسال
+                                                            نظر
+                                                        </button>
+                                                    </form>
+                                                </article>
+                                            {% else %}
+                                                <article>
+                                                    <h2 class="param-title">برای ارسال نظر باید ورود کنید</h2>
+                                                </article>
+                                                <a href="{% url 'accounts:log_in' %}?next={% url 'product_detail' products.slug products.pk %}"
+                                                   class="btn btn-success">ورود</a>
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="tab-pane tag-container" id="tags" role="tabpanel"
+                                             aria-expanded="false">
+                                            <div class="box-content">
+                                                {% for tag in object.tag_set.all %}
+                                                    <a href="" class="btn-dark ml-3"><i class="fa fa-tag"></i> {{ tag }}
+                                                    </a>
+                                                {% endfor %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- main -->
+
+
+    <!-- related products -->
+                {% include 'related_product.html' with related_product=related_product %}
+    <!-- related products -->
+
+
+    <!-- footer -->
+    {% render_partial 'footer' %}
+    <!-- footer -->
+
+    </body>
+
+{% endblock %}

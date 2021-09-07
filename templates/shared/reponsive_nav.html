@@ -1,0 +1,82 @@
+{% load static %}
+{% load search_tags %}
+
+<nav class="navbar direction-ltr fixed-top header-responsive" style="height: 60px;">
+    <div class="container">
+        <div class="navbar-translate">
+                        <a href="/" class="" id="text_color">E-Commerce <i class="fa fa-shopping-bag"></i></a>
+
+            <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
+                    data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </button>
+
+            <div class="search-nav default" style="opacity: 0; visibility: hidden;">
+                    {% search_box request  %}
+            </div>
+        </div>
+
+        <div class="navbar-collapse justify-content-end collapse" id="navigation" style="">
+
+            <a href="/" id="text_color">E-Commerce <i class="fa fa-shopping-bag"></i></a>
+
+
+            <ul class="navbar-nav default">
+
+                {% if request.user.is_authenticated %}
+                <li class="sub-menu">
+                    <a href="#" class="active_b_menu">{{ request.user.username }}</a>
+
+                    <ul>
+                        <li><a href="{% url 'accounts:change_profile' %}" class="active_b_menu"> پروفایل <i class="fa fa-user-circle"></i></a></li>
+                        <li><a href="{% url 'mycart' %}" class="active_b_menu"> سبد خرید <i class="fa fa-shopping-cart"></i></a></li>
+                        <li><a href="{% url 'accounts:change_email' %}" class="active_b_menu"> تغییر آدرس ایمیل <i>@</i></a></li>
+                        <li><a href="{% url 'accounts:change_password' %}" class="active_b_menu"> تغییررمز عبور <i class="fa fa-key"></i></a></li>
+                        <li><a href="{% url 'accounts:log_out' %}" class="active_b_menu"> خروج از حساب <i class="fa fa-sign-out"></i></a></li>
+                    </ul>
+                </li>
+                    {% else %}
+                    <li class="sub-menu">
+                        <a href="#">Guest</a>
+                            <ul>
+                                <li><a href="{% url 'accounts:log_in' %}"> ورود <i class="fa fa-sign-in"></i></a></li>
+
+                                <li><a href="{% url 'accounts:sign_up' %}"> ثبت نام <i class="fa fa-user-plus large"></i></a></li>
+
+                            </ul>
+                    </li>
+                {% endif %}
+                        <a href="{% url 'product_list' %}" class="active_b_menu">همه ی محصولات</a>
+            <li class="sub-menu">
+                <a href="#" class="active_b_menu">دسته بندی ها</a>
+                <ul>
+                    <li>
+                {% for cat in category %}
+                    {% if cat.parent == None %}
+                        <li class="sub-menu">
+                    <a href="{{cat.get_absolute_url}}" class="active_b_menu">{{ cat.title }}</a>
+                    <ul>
+                        {% if cat.children.all %}
+                            <li class="active_b_menu">
+                                {% include 'responsive_nav/responsive_nav_categories.html' %}
+                            {% else %}
+                                <a href="{{cat.get_absolute_url}}" class="active_b_menu">{{ cat.title }}</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+                    {% endif %}
+                {% endfor %}
+                </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'contact' %}" class="active_b_menu">تماس با ما</a>
+            </li>
+            </ul>
+        </div>
+    </div>
+</nav>

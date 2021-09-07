@@ -1,0 +1,48 @@
+{% load thumbnail %}
+
+<li class="col-xl-3 col-lg-4 col-md-6 col-12 mr-0 ml-0">
+    <div class="product-box hover-show">
+        <span class="hover-span"><i class="fa fa-eye icolor"></i> بازدید ها : {{ product.hits.count }} </span>
+
+        <div class="product-seller-details product-seller-details-item-grid">
+
+                                                        <span class="product-main-seller"><span
+                                                                class="product-seller-details-label">فروشنده:
+                                                            </span>{{ product.seller }}</span>
+
+            <span class="product-seller-details-badge-container"></span>
+
+        </div>
+
+        <a class="product-box-img"
+
+           href="/products/{{ product.slug }}/{{ product.id }}">
+            {% thumbnail product.list_image '270x200' as img %}
+            <img src="{{ img.url }}"
+                 alt="{{ product.title }} image" width="400"
+                 height="200">
+            {% endthumbnail %}
+        </a>
+
+        <div class="product-box-content">
+            <div class="product-box-content-row">
+                <div class="product-box-title">
+
+                    <a href="#">
+                        {{ product.title }}
+                    </a>
+                </div>
+            </div>
+            <div class="product-box-row product-box-row-price">
+                <div class="price">
+                    <div class="price-value">
+                        <div class="price-value-wrapper">
+                            {{ product.price }} <span
+                                class="price-currency">تومان</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

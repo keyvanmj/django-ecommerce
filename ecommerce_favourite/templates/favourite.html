@@ -1,0 +1,80 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load static %}
+{% load humanize %}
+{% load render_partial %}
+
+{% block title %}
+    Favourite
+{% endblock %}
+
+{% block content %}
+    {% render_partial 'header' %}
+    {% render_partial 'responsive_nav' %}
+
+    <main class="profile-user-page default">
+        <div class="container">
+            <div class="row">
+                <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2 mt-2">
+
+                    <div class="content-section default">
+                        <div class="row">
+
+                            {% for fav in product %}
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="profile-recent-fav-row">
+                                        <a href="#"
+                                           class="profile-recent-fav-col profile-recent-fav-col-thumb">
+                                            <img src="{{ fav.list_image.url }}"></a>
+                                        <div class="profile-recent-fav-col profile-recent-fav-col-title">
+                                            <a href="#">
+                                                <h4 class="profile-recent-fav-name">
+                                                    {{ fav.title }}
+                                                </h4>
+                                            </a>
+                                            <div class="profile-recent-fav-price">
+                                                <h5>
+                                                    {{ fav.price }}
+                                                    تومان
+                                                </h5>
+
+                                            </div>
+                                        </div>
+                                        <div class="profile-recent-fav-col profile-recent-fav-col-actions">
+                                            <a href="{% url 'removefavourite' fav.pk %}" data-toggle="tooltip"
+                                               data-placement="top" title="حذف کردن از موردعلاقه ها">
+                                                <i class="fa fa-trash" style="font-size: 30px"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col-12 text-left mb-3">
+                                            <a href="{% url 'product_detail' slug=fav.slug pk=fav.pk %}"
+                                               class="btn btn-info">مشاهده محصول</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <main class="cart default">
+                                    <div class="container text-center">
+                                                <img src="{% static 'assets/img/heart-pngrepo-com.png' %}" alt="" width="300">
+                                            <div class="cart-empty-title">هیچ محصولی داخل لیست علاقه مندی شما یافت نشد!</div>
+                                    </div>
+                                </main>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+                {#                {% include 'shared/sidebar.html' %}#}
+                {% render_partial 'sidebar' %}
+
+            </div>
+        </div>
+    </main>
+
+
+
+
+    {% render_partial 'footer' %}
+
+{% endblock %}

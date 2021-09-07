@@ -1,0 +1,79 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load humanize %}
+{% block title %}
+Order Detail
+{% endblock %}
+
+{% block content %}
+    {% render_partial 'header' %}
+    {% render_partial 'responsive_nav' %}
+
+    <main class="profile-user-page default">
+            <div class="container">
+                <div class="row">
+                    <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
+
+                        <div class="col-md-12 mx-auto content-section">
+                    <h3>جزییات سفارش</h3>
+                    <p><span class="font-weight-bold">شناسه سفارش : </span>{{ ord_obj.id }}</p>
+                    <p><span class="font-weight-bold">کد پیگیری : </span>{{ ord_obj.transaction_id }}</p>
+                    <p><span class="font-weight-bold">وضعیت سفارش : </span>{{ ord_obj.order_status }}</p>
+                    <p><span class="font-weight-bold">تاریخ ثبت :
+                    </span>{{ ord_obj.created_at }} ({{ ord_obj.created_at|timesince }} قبل) </p>
+                    <p><span class="font-weight-bold">اطلاعات مشتری : </span>
+                        {{ ord_obj.full_name }} ,{{ ord_obj.mobile }}</p>
+                    <p><span class="font-weight-bold">آدرس ارسال : </span>{{ ord_obj.shipping_address }}</p>
+                </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-12">
+                                    <h1 class="title-tab-content">محصولات سفارش داده شده</h1>
+                                </div>
+                                <div class="content-section default">
+                                    <div class="row">
+                                        {% for cp in ord_obj.cart.cartproduct_set.all %}
+                                            <div class="col-md-12 col-sm-12">
+                                            <div class="profile-recent-fav-row">
+                                                <a class="profile-recent-fav-col profile-recent-fav-col-thumb">
+                                                    <img src="{{ cp.product.list_image.url }}"></a>
+                                                <div class="profile-recent-fav-col profile-recent-fav-col-title">
+                                                    <a target="_blank" href="{% url 'product_detail' cp.product.slug cp.product.pk %}">
+                                                        <h4 class="profile-recent-fav-name btn-link-border border-danger">
+                                                            {{ cp.product.title }}
+                                                        </h4>
+                                                    </a>
+                                                    <div class="profile-recent-fav-price">قیمت :{{ cp.rate }} تومان</div>
+                                                    <div class="profile-recent-fav-row">تعداد : {{ cp.quantity }} عدد</div>
+                                                </div>
+                                                    <div class="profile-recent-fav-row">کل : {{ cp.subtotal }} تومان</div>
+{#                                                <div class="profile-recent-fav-col profile-recent-fav-col-actions">#}
+{#                                                    <button class="btn-action btn-action-remove">#}
+{#                                                        <i class="fa fa-trash"></i>#}
+{#                                                    </button>#}
+{#                                                </div>#}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    <div class="profile-recent-fav-row"><p><span>مجموع : {{ ord_obj.total|intcomma }} تومان</span></p></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+{#                {% include 'shared/sidebar.html' %}#}
+                {% render_partial 'sidebar' %}
+
+                </div>
+            </div>
+        </main>
+
+
+
+    {% render_partial 'footer' %}
+{% endblock %}

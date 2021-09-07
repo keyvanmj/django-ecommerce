@@ -1,0 +1,100 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load render_partial %}
+{% block title %}
+    Change Profile
+{% endblock %}
+{% block content %}
+    <body class="index-page sidebar-collapse">
+
+    <!-- responsive-header -->
+    {% render_partial 'responsive_nav' %}
+    <!-- responsive-header -->
+
+    <div class="wrapper default">
+
+        <!-- header -->
+        {% render_partial 'header' %}
+        <!-- header -->
+
+
+        <!-- main -->
+        <main class="profile-user-page default">
+            <div class="container">
+                <div class="row">
+                    <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
+                        <div class="row">
+                            <div class="col-12">
+                                {% if messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        <ul class="messages">
+
+                                            {% for message in messages %}
+                                                <li
+                                                        {% if message.tags %}class="{{ message.tags }}"{% endif %}>
+                                                    {{ message }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+
+
+                                <div class="col-12">
+                                    <h1 class="title-tab-content">ویرایش اطلاعات شخصی</h1>
+                                </div>
+                                <div class="content-section default">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h1 class="title-tab-content">حساب شخصی</h1>
+                                        </div>
+                                    </div>
+                                    <form class="form-account" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% bootstrap_form form %}
+
+                                        <div class="parent-btn">
+                                            <button class="btn btn-secondary">ذخیره</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="card">
+                                    <table class="table">
+                                        <tr>
+                                            <th>وضعیت کاربر  :</th>
+                                            {% if user.profile.is_online %}
+                                                <td>
+                                                    آنلاین
+                                                </td>
+                                            {% else %}
+                                                <td>آفلاین</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% if request.user.is_superuser %}
+                                        <tr class="font-weight-bold">
+                                            <td>
+                                                تعداد فروش :
+                                            </td>
+                                            <td>{{ order_count.count }} عدد</td>
+                                        </tr>
+                                    {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% include 'shared/sidebar.html' %}
+                </div>
+            </div>
+        </main>
+        <!-- main -->
+        <!-- footer -->
+        {% render_partial 'footer' %}
+        <!-- footer -->
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+<div class="search-area">
+    <form class="my-2 search" action="{% url 'search_results' %}" id="_search" autocomplete="off">
+        {{ form.q }}
+        <button class="btn-danger" id="btn-pos"
+                type="submit"><i class="fa fa-search text-white m-0" id="search_icon"></i>
+        </button>
+        <div id="search-box" class="results_card box_delay not-visible"></div>
+    </form>
+</div>
+

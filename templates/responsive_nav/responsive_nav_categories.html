@@ -1,0 +1,19 @@
+{% for cat in cat.children.all %}
+    {% if cat.children.all %}
+            <li class="sub-menu">
+                <a href="{% url 'category_view' cat.slug %}" class="active_b_menu">{{ cat.title }}</a>
+                <ul>
+                    <li>
+                        {% include 'responsive_nav/responsive_nav_categories.html' %}
+                    </li>
+                </ul>
+            </li>
+
+    {% else %}
+
+        <li>
+            <a href="{% url 'category_view' cat.slug %}" class="active_b_menu">{{ cat.title }}</a>
+        </li>
+
+    {% endif %}
+{% endfor %}

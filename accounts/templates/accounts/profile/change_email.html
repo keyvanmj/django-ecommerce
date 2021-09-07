@@ -1,0 +1,53 @@
+{% extends 'shared/base.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load render_partial %}
+{% block title %}
+Change Email
+{% endblock %}
+{% block content %}
+
+        <div class="wrapper default change_email_bg">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+                    <div class="account-box change_email_card">
+                        <a href="/" class="logo text-logo">
+                            E-Commerce
+                        </a>
+                        <span id="login_icon"><i class="blink">@</i></span>
+
+                        <div class="account-box-title">
+                            <h4>{% trans 'تغییر ایمیل' %}</h4>
+                        </div>
+                        <div class="account-box-content">
+                            <form method="post" class="form-account">
+
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+
+
+                                <div class="form-account-submit">
+
+                                    <div class="parent-btn">
+                                        <button class="dk-btn dk-btn-info" name="sign_up">
+                                            تغییر
+                                            <i class="fa fa-arrow-left"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% render_partial 'mini_footer' %}
+
+    </div>
+
+{% endblock %}

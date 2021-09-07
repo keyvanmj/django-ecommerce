@@ -1,0 +1,59 @@
+{% load thumbnail %}
+{% if related %}
+<div class="row p-3">
+        <div class="col-12">
+            <div class="widget widget-product card">
+                <header class="card-header">
+                    <h3 class="card-title">
+                        <span>محصولات مشابه</span>
+                    </h3>
+                </header>
+                <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+
+
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage"
+                             style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2009px;">
+                            {% for product_list in related_product %}
+
+                                {% for product in product_list %}
+
+                                    <div class="owl-item {% if forloop.first %}owl-item active{% endif %}"
+                                         style="width: 277px; margin-left: 10px;">
+                                        <div class="item">
+                                            <a href="{% url 'product_detail' product.slug  product.pk %}">
+                                                {% thumbnail product.list_image '260x200' as img %}
+                                                <img src="{{ img.url }}"
+                                                     class="img-fluid" alt="" style="width: 200px;height: 200px">
+                                                {% endthumbnail %}
+                                            </a>
+                                            <h2 class="post-title">
+                                                <a href="#">{{ product.title }}</a>
+                                            </h2>
+                                            <div class="price">
+                                                <ins><span>{{ product.price }}<span>تومان</span></span></ins>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+
+                    <div class="owl-nav">
+                        {% if product.cartproduct_set.all %}
+
+                            <button type="button" role="presentation" class="owl-prev disabled"><i
+                                    class="now-ui-icons arrows-1_minimal-right"></i></button>
+                            <button type="button" role="presentation" class="owl-next"><i
+                                    class="now-ui-icons arrows-1_minimal-left"></i></button>
+                        {% endif %}
+
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

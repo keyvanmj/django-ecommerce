@@ -1,0 +1,79 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load humanize %}
+{% load render_partial %}
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper default gradient-bg">
+        <a href="/" class="logo text-center">
+            <h3 id="text-logo">ecommerce</h3>
+        </a>
+
+        <div class="main-content col-12 col-md-8 mx-auto">
+            <div class="container">
+                <div class="row">
+                    <div class="cart-page-content col-xl-12 col-lg-12 row col-md-12 order-1">
+                        <div class="table-responsive checkout-content default">
+                            <table class="table">
+                                            <a class="text-info m-3 row" href="{% url 'mycart' %}">Update Cart</a>
+                                {% for cp in cart.cartproduct_set.all %}
+                                    <tbody>
+                                    <tr class="font-weight-bold">
+                                        <td>
+                                            <img class="img-zoom" src="{{ cp.product.list_image.url }}" alt=""
+                                                 width="119px">
+                                        </td>
+
+                                        <td>
+                                            <a class=""
+                                               href="/products/{{ cp.product.slug }}/{{ cp.product.id }}">{{ cp.product.title }}</a>
+                                        </td>
+
+                                        <td>{{ cp.quantity }} عدد</td>
+                                        <td>{{ cp.subtotal }} تومان</td>
+                                    </tr>
+                                    </tbody>
+                                {% endfor %}
+                                <tr>
+                                    {#                                        <th class="text-right">مجموع:</th>#}
+                                    <th class="text-right">مجموع: {{ cart.total|intcomma }} تومان</th>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="account-box checkout-page">
+                <div class="account-box-content">
+                    <form class="form-account" method="post">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="checkout-title text-right">مشخصات شما</div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-account-row">
+                                    {% csrf_token %}
+                                    {% bootstrap_form form %}
+                                            <button class="btn btn-info rounded" type="submit">
+                                                ثبت و ارسال
+                                                <i class="fa fa-send"></i>
+                                            </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                    </form>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

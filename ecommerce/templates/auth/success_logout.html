@@ -1,0 +1,17 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="alert alert-success" role="alert">
+  <a href="#" class="alert-link">خروج با موفقیت انجام شد</a>
+</div>
+
+<div class="container">
+<div class="row">
+    <a href="/" class="btn btn-primary">صفحه ی اصلی</a>
+</div>
+</div>
+    <h5 id="demo" class="text-center">لطفا صبر کنید</h5>
+    
+    <script src="{% static 'assets/js/countdown.js' %}"></script>
+{% endblock %}

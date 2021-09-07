@@ -1,0 +1,68 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load render_partial %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block title %}
+Login page
+{% endblock %}
+{% block content %}
+
+
+    <div class="wrapper default login-bg">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+
+                    <div class="account-box login-card-bg login-card">
+
+                        <a href="/" class="logo" id="text_color">
+                            E-Commerce
+                        </a>
+                        <span id="login_icon"><i class="fa fa-user-circle"></i></span>
+
+                        <div class="account-box-title text-center pt-0">ورود</div>
+                        <div class="account-box-content">
+                            <form class="form-account" method="post" novalidate>
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+                                <input id="view_pass" type="checkbox" onclick="myFunction()">
+                                <label for="view_pass">نمایش کلمه عبور</label>
+                                <div class="form-account-row form-account-submit">
+                                    <div class="parent-btn">
+                                        <button class="dk-btn dk-btn-info" type="submit">
+                                            ورود
+                                            <i class="fa fa-sign-in"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'accounts:restore_password' %}">{% trans 'فراموشی رمز عبور؟' %}</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'accounts:remind_username' %}">{% trans 'فراموشی نام کاربری؟' %}</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'accounts:resend_activation_code' %}">{% trans 'فرستادن دوباره کد فعال سازی .' %}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="account-box-footer">
+                            <span>کاربر جدید هستید؟</span>
+                            <a href="{% url 'accounts:sign_up' %}" class="btn-link-border">ثبت‌نام در
+                                E-Commerce</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% render_partial 'mini_footer' %}
+    </div>
+
+
+{% endblock %}

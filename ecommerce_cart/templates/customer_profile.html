@@ -1,0 +1,72 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    {% render_partial 'header' %}
+{% render_partial 'responsive_nav' %}
+
+    <main class="profile-user-page default">
+        <div class="container">
+            <div class="row">
+                <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="title-tab-content">آخرین سفارش ها</h1>
+                        </div>
+                        {% if orders %}
+                            <div class="col-12 text-center">
+                                <div class="content-section pt-5 pb-5">
+                                    {#                                    <div class="table-responsive checkout-content default">#}
+                                    <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>شماره</th>
+                                        <th>شناسه سفارش</th>
+                                        <th>مجموع</th>
+                                        <th>تاریخ ثبت سفارش</th>
+                                        <th>وضعیت</th>
+                                    </tr>
+                                    </thead>
+                                        {% for order in orders %}
+                                            <tbody>
+                                            <tr class="font-weight-bold">
+                                                <td>{{ forloop.counter }}</td>
+                                                <td><a href="{% url 'customerorderdetail' order.id %}"
+                                                       class="border-bottom btn-link-border">{{ order.id }}</a></td>
+                                                <td>{{ order.total }}</td>
+                                                <td>{{ order.created_at|timesince }} قبل</td>
+                                                <td>{{ order.order_status }}</td>
+                                            </tr>
+                                            </tbody>
+                                        {% endfor %}
+                                    </table>
+
+
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <div class="col-12 text-center">
+                                <div class="content-section pt-5 pb-5">
+                                    <div class="icon-empty">
+                                        <i class="now-ui-icons travel_info"></i>
+                                    </div>
+                                    <h1 class="text-empty">موردی برای نمایش وجود ندارد!</h1>
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            {% render_partial 'sidebar' %}
+            </div>
+        </div>
+    </main>
+    {% render_partial 'footer' %}
+{% endblock %}

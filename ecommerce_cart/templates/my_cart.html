@@ -1,0 +1,172 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load humanize %}
+{% block title %}
+    My Cart
+{% endblock %}
+{% block content %}
+    {% render_partial 'responsive_nav' %}
+    <div class="wrapper default">
+
+        <!-- header -->
+        {% render_partial 'header' %}
+        <!-- header -->
+
+        <!-- main -->
+
+        <main class="cart-page default">
+            <div class="container">
+                {% if cart.cartproduct_set.all %}
+                    <div class="row">
+                        <div class="cart-page-content col-xl-9 col-lg-8 col-md-12 order-1">
+                            <div class="cart-page-title">
+                                <h1>سبد خرید</h1>
+                            </div>
+                            <div class="table-responsive checkout-content default">
+                                {% if cart.cartproduct_set.all %}
+{#                                    <a class="btn btn-warning" href="{% url 'removecart' %}">خالی کردن سبد خرید</a>#}
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                        خالی کردن سبد خرید
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="mx-auto" id="exampleModalLabel">حذف محصولات</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <hr>
+                                                <div class="modal-body">
+                                                    همه ی محصولات شما از سبد خرید حذف خواهد شد. آیا ادامه می دهید ؟
+                                                </div>
+                                                <br>
+                                                <div class="modal-footer">
+                                                    <a href="{% url 'removecart' %}" type="button" class="btn btn-success">ذخیره</a>
+                                                    <button type="button" class="btn btn-info"
+                                                            data-dismiss="modal">انصراف
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                {% endif %}
+
+                                <table class="table">
+                                    <thead>
+                                    <tr class="font-weight-bold">
+                                        <td></td>
+                                        <td><h5>عنوان</h5></td>
+                                        <td><h5>تعداد</h5></td>
+                                        <td><h5>قیمت کل</h5></td>
+                                    </tr>
+                                    </thead>
+                                    {% for cp in cart.cartproduct_set.all %}
+                                        <tbody>
+                                        <tr class="font-weight-bold">
+                                            <td>
+                                                <a href="{% url 'managecart' cp.id %}?action=rmv"
+                                                   class="btn-remove fa fa-remove"></a>
+                                                <img class="img-zoom" src="{{ cp.product.list_image.url }}" alt=""
+                                                     width="119px">
+                                            </td>
+
+                                            <td>
+                                                <a class=""
+                                                   href="/products/{{ cp.product.slug }}/{{ cp.product.id }}">{{ cp.product.title }}</a>
+                                            </td>
+
+                                            <td>{{ cp.quantity }} عدد</td>
+                                            <td>{{ cp.subtotal|intcomma }} تومان</td>
+                                            <td class="pull-left">
+
+
+                                                <a href="{% url 'managecart' cp.id %}?action=inc"
+                                                   class="fa fa-arrow-up"></a>
+                                                <br>
+                                                <a href="{% url 'managecart' cp.id %}?action=dcr"
+                                                   class="fa fa-arrow-down mt-3"></a>
+                                            </td>
+
+                                        </tr>
+
+
+                                        </tbody>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                        </div>
+                        <aside class="cart-page-aside col-xl-3 col-lg-4 col-md-6 center-section order-2">
+                            <div class="checkout-aside">
+                                <div class="checkout-summary">
+                                    <div class="checkout-summary-main">
+                                        <ul class="checkout-summary-summary">
+                                            <li><span>مبلغ کل ( کالا)</span><span>{{ cart.total|intcomma }} تومان</span>
+                                            </li>
+                                        </ul>
+                                        <div class="checkout-summary-devider">
+                                            <div></div>
+                                        </div>
+                                        <div class="checkout-summary-content">
+                                            <div class="checkout-summary-price-title">مبلغ قابل پرداخت:</div>
+                                            <div class="checkout-summary-price-value">
+                                                <span class="checkout-summary-price-value-amount">{{ cart.total|intcomma }}</span>تومان
+                                            </div>
+                                            <a href="#" class="selenium-next-step-shipping">
+                                                <div class="parent-btn">
+                                                    <a href="{% url 'checkout' %}" class="dk-btn dk-btn-success">
+                                                        ادامه ثبت سفارش
+                                                        <i class="fa fa-credit-card"></i>
+                                                    </a>
+                                                </div>
+                                            </a>
+                                            <div>
+                                            <span>
+                                                کالاهای موجود در سبد شما ثبت و رزرو نشده‌اند، برای ثبت سفارش مراحل بعدی
+                                                را تکمیل
+                                                کنید.
+                                            </span>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                {% else %}
+                    <main class="cart default">
+                        <div class="container text-center">
+                            <div class="cart-empty">
+                                    <img src="{% static 'assets/img/cart/shopping-basket-pngrepo-com.png' %}" alt="" width="400px">
+                                <div class="cart-empty-title">سبد خرید شما خالیست!</div>
+                            </div>
+                        </div>
+                    </main>
+                {% endif %}
+
+            </div>
+        </main>
+        <!-- main -->
+
+        <!-- footer -->
+        {% render_partial 'footer' %}
+        <!-- footer -->
+
+    </div>
+
+{% endblock %}

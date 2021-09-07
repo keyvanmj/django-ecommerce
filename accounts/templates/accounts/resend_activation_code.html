@@ -1,0 +1,59 @@
+{% extends 'shared/base.html' %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load render_partial %}
+{% block title %}
+Resend Activation Code
+{% endblock %}
+{% block content %}
+    <div class="wrapper default resend-code-bg">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+                    <div class="account-box">
+                        <a href="/" class="logo text-logo">
+                            E-Commerce
+                        </a>
+                        <span id="login_icon"><i class="fa fa-refresh fa-spin"></i></span>
+
+                        <div class="account-box-title">
+                            <h5>{% trans 'درخواست دوباره کد فعال سازی' %}</h5>
+                        </div>
+                        <div class="account-box-content">
+                            <form method="post" class="form-account">
+
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+
+
+                                <div class="form-account-submit">
+
+                                    <div class="parent-btn">
+                                        <button class="dk-btn dk-btn-info" name="sign_up">
+                                            بعدی
+                                            <i class="fa fa-arrow-left"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="parent-btn">
+
+                                        <a href="{% url 'accounts:log_in' %}"
+                                           class="dk-btn dk-btn-success btn-block mt-3" name="sign_up">
+                                            ورود
+                                            <i class="fa fa-send-o"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% render_partial 'mini_footer' %}
+    </div>
+
+{% endblock %}

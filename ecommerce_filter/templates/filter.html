@@ -1,0 +1,56 @@
+{% load bootstrap4 %}
+<div class="box">
+    <div class="box-header">
+        <h6 class=""><i class="fa fa-filter"></i> فیلتر محصولات </h6>
+    </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-success">save</button>
+    </form>
+
+    <a class="{% if request.get_full_path == '/products/filter?action=last' %}active{% endif %}"
+       href="{% url 'filter_product' %}?action=last">جدید ترین</a>
+
+    <a class="{% if request.get_full_path == '/products/filter?action=cheap' %}active{% endif %}"
+       href="{% url 'filter_product' %}?action=cheap">ارزان ترین</a>
+
+    <a class="{% if request.get_full_path == '/products/filter?action=expensive' %}active{% endif %}"
+       href="{% url 'filter_product' %}?action=expensive">گران ترین</a>
+
+    <a class="{% if request.get_full_path == '/products/filter?action=most_view' %}active{% endif %}"
+       href="{% url 'filter_product' %}?action=most_view">محصولات پر بازدید ماه</a>
+
+
+    {% for cat in product_list %}
+        {% if cat.parent == None %}
+            {% if cat.children.all %}
+                <li class="list-item list-item-has-children mega-menu row col">
+                    <a class="nav-link font-weight-bold" href="{{ cat.get_absolute_url }}">{{ form }} {{ cat }}</a>
+                    <ul class="sub-menu nav">
+                        {% for cat in cat.children.all %}
+                            <li class="list-item list-item-has-children">
+                                <a id="btn-hovers"
+                                   class="main-list-item nav-link"
+                                   href="{{ cat.get_absolute_url }}">{{ form }} {{ cat }}</a>
+                                <ul class="sub-menu nav">
+                                    {% for cat in cat.children.all %}
+                                        <li class="list-item">
+                                            <a id="btn-hovers" class="nav-link"
+                                               href="{{ cat.get_absolute_url }}">{{ form }} {{ cat }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endif %}
+        {% endif %}
+
+    {% endfor %}
+</div>
+
+
+

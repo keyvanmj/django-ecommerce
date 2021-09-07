@@ -1,0 +1,236 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load bootstrap4 %}
+
+{% block title %}
+    Products
+{% endblock %}
+
+{% block content %}
+    {% url 'product_list' as product_url %}
+    {% url 'filter_product' as filter_url %}
+    {% url 'checkbox_filter_partial' as checkbox_filter_url %}
+    {% url 'search_results' as search_url %}
+    {% url 'category_view' hierarchy=slg as category_url %}
+
+    <body class="index-page sidebar-collapse">
+
+    <!-- responsive-header -->
+    {% render_partial 'responsive_nav' %}
+    <!-- responsive-header -->
+    <div class="wrapper default">
+        <!-- header -->
+        {% render_partial 'header' %}
+        <!-- header -->
+
+        <!-- main -->
+        <main class="search-page default">
+            <div class="container">
+                <div class="row">
+                    <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 order-1">
+                        <div class="card">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td>
+                                        <h5 class="text-center font-weight-bold p-1"><i class="fa fa-filter"></i>
+                                            فیلتر بر اساس دسته بندی ها</h5>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr></tr>
+                                </thead>
+                                {% for cat in category %}
+                                    {% if cat.parent == None %}
+                                        {% if cat.children.all %}
+                                        {% else %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tbody>
+                                <tr>
+                                    <form action="{% url 'checkbox_filter_partial' %}" method="get"
+                                          id="checkbox_filter_form">
+                                        <td>
+                                            {{ form }}
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-success" id="submit_filter_form">اعمال فیلتر
+                                            </button>
+                                        </td>
+                                    </form>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </aside>
+
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-2">
+
+                        <div class="listing default">
+                            <div class="listing-counter">
+                                <br>
+                            </div>
+                            <div class="listing-header default col-12">
+                                {% if product_url == request.path or filter_url == request.path %}
+                                    <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
+                                        data-label="مرتب‌سازی بر اساس :">
+
+                                        <li>
+                                            <a class="{% if 'last' == action %}active{% endif %}"
+                                               href="{% url 'filter_product' %}?action=last"
+                                               aria-expanded="false">جدید ترین</a>
+                                        </li>
+                                        <li>
+                                            <a class="{% if 'cheap' == action %}active{% endif %}"
+                                               href="{% url 'filter_product' %}?action=cheap"
+                                               aria-expanded="false">ارزان ترین</a>
+                                        </li>
+                                        <li>
+                                            <a class="{% if 'expensive' == action %}active{% endif %}"
+                                               href="{% url 'filter_product' %}?action=expensive"
+                                               aria-expanded="false">گران ترین</a>
+                                        </li>
+                                        <li>
+                                            <a class="{% if 'most_view' == action %}active{% endif %}"
+                                               href="{% url 'filter_product' %}?action=most_view"
+                                               aria-expanded="false">محصولات پر بازدید ماه</a>
+                                        </li>
+                                        <li>
+                                            <a class="{% if 'favourites' == action %}active{% endif %}"
+                                               href="{% url 'filter_product' %}?action=favourites"
+                                               aria-expanded="false">محبوب ترین ها</a>
+                                        </li>
+                                        <li>
+                                            <a class="{% if 'most_sells' == action %}active{% endif %}"
+                                               href="{% url 'filter_product' %}?action=most_sells"
+                                               aria-expanded="false">محصولات پرفروش</a>
+                                        </li>
+                                    </ul>
+                                {% elif category_url == request.path %}
+
+                                    <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
+                                        data-label="دسته بندی :">
+                                        <li id="bread_crumb">
+                                            {{ cat_list|join:' / ' }}
+                                        </li>
+                                    </ul>
+                                {% elif checkbox_filter_url == request.path  %}
+                                     <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
+                                                        data-label="فیلتر بر اساس : ">
+                                         <ul id="bread_crumb">
+                                             <li id="breadcrumb_filter">
+                                             </li>
+                                         </ul>
+                                     </ul>
+                                {% elif search_url in request.path %}
+                                    {% if q %}
+                                        <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
+                                            data-label="جستجو :">
+                                            <li class="title" id="search_results">
+                                                <h6 id="bread_crumb" class="mt-2">{{ q }}</h6>
+                                            </li>
+                                        </ul>
+                                        {% if products.count >= 1 %}
+                                            <ul class="title text-center alert-success">
+                                                <li>
+                                                    محصولات مرتبط : {{ products.count }} مورد پیدا شد
+                                                </li>
+                                            </ul>
+                                        {% endif %}
+                                    {% else %}
+                                        <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
+                                            data-label="همه ی محصولات">
+                                        </ul>
+                                    {% endif %}
+
+                                {% endif %}
+                            </div>
+                            <div class="tab-content default text-center">
+                                <div class="tab-pane active" id="related" role="tabpanel" aria-expanded="true">
+                                    <div class="container no-padding-right">
+                                        <ul class="row listing-items">
+                                            {% for product in page_obj %}
+                                                {% include 'products/product_list_component.html' with product=product %}
+                                            {% empty %}
+                                                <h3 class="m-3">هیچ موردی یافت نشد</h3>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--pagination-->
+                            <div class="pager default text-center">
+                            {% if page_obj.paginator.num_pages > 1 %}
+                                <ul class="pagination justify-content-center">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">قبلی</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1"
+                                               aria-disabled="true">قبلی</a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% if page_obj.number|add:'-4' > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.number|add:'-5' }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&hellip;</a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if page_obj.number == i %}
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">
+                                                     {{ i }}
+                                                    <span class="sr-only">(current)</span>
+                                                </span>
+                                            </li>
+                                        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                   href="?page={{ i }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ i }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.number|add:'5' }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&hellip;</a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">بعدی</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">بعدی</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            {% endif %}
+                            </div>
+                            <!--end pagination-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- main -->
+        <!-- footer -->
+        {% render_partial 'footer' %}
+        <!-- footer -->
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% block title %}
+Information
+{% endblock %}
+
+{% block content %}
+
+    {% render_partial 'header' %}
+    {% render_partial 'responsive_nav' %}
+
+    <main class="profile-user-page default">
+
+<div class="profile-page col-xl-12 col-lg-8 col-md-16 order-1">
+                        <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-12">
+                                <h1 class="title-tab-content">اطلاعات شخصی</h1>
+                            </div>
+                            <div class="content-section default font-weight-bold">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <p>
+                                            {% if customer.first_name and customer.last_name %}
+                                                <span class="title">نام و نام خانوادگی :</span>
+                                                <span>{{ customer.first_name }} {{ customer.last_name }} </span>
+                                            {% else %}
+                                                <span class="title">نام کاربری:</span>
+                                                <span>{{ request.user.username }}</span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <p>
+                                            <span class="title">پست الکترونیک :</span>
+                                            <span>{{ customer.email }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <p>
+                                            <span class="title">شماره تلفن همراه:</span>
+                                                {% if request.user.profile.phone_number %}
+                                            <span>{{ request.user.profile.phone_number }}</span>
+                                                    {% else %}
+                                                    -
+                                                {% endif %}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <p>
+                                            <span class="title">آدرس:</span>
+                                        {% if address %}
+                                            <span>{{ address|last }}</span>
+                                            {% else %}
+                                            -
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <p>
+                                            <span class="title">تاریخ عضویت:</span>
+                                            <span>{{ created_at|timesince }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <a href="{% url 'accounts:change_profile' %}"
+                                           class="btn-link-border form-account-link">
+                                            ویرایش اطلاعات شخصی
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </main>
+
+    {% render_partial 'footer' %}
+{% endblock %}

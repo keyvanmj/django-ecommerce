@@ -1,0 +1,52 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load render_partial %}
+{% block title %}
+    Register page
+{% endblock %}
+{% block content %}
+
+    <div class="wrapper default register-bg font-weight-bold">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-12 col-md-7 col-lg-5 mx-auto">
+                    <div class="account-box register-card">
+                        <a href="/" class="logo" id="text_color">
+                            E-Commerce
+                        </a>
+                        <span id="login_icon"><i class="fa fa-user-plus"></i></span>
+
+                        <div class="account-box-title text-center pt-0">ثبت‌نام</div>
+                        <div class="account-box-content">
+                            <form class="form-account" method="post">
+                                {% csrf_token %}
+                                    {% bootstrap_form form %}
+
+
+                                <div class="form-account-agree">
+
+
+                                <div class="form-account-row form-account-submit">
+                                    <div class="parent-btn">
+                                        <button class="dk-btn dk-btn-info" name="sign_up">
+                                            ثبت نام
+                                            <i class="fa fa-sign-in"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="account-box-footer">
+                            <span>قبلا در E-Commerce ثبت‌نام کرده‌اید؟</span>
+                            <a href="{% url 'accounts:log_in' %}" class="btn-link-border">وارد شوید</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% render_partial 'mini_footer' %}
+    </div>
+{% endblock %}

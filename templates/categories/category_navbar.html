@@ -1,0 +1,26 @@
+<nav class="main-menu bg-dark font-weight-bold p-2">
+
+    <div class="container">
+        <ul class="list float-right">
+            {% for cat in category %}
+                {% if cat.parent == None %}
+                    <li class="list-item list-item-has-children mega-menu mega-menu-col-5">
+                        <a class="nav-link" href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+                        <ul class="sub-menu nav">
+                            <li class="list-item list-item-has-children">
+                                {% if cat.children.all %}
+                                    <ul class="sub-menu nav">
+                                        {% include 'category_list_view.html' %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </ul>
+    </div>
+</nav>

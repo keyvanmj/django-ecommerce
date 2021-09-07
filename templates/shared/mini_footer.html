@@ -1,0 +1,26 @@
+{% block content %}
+{% load static %}
+<footer class="mini-footer">
+
+    <nav>
+        <div class="container">
+            <ul class="menu">
+                    <a href="#" class="text-black font-weight-bold ml-3">دربارهE-Commerce</a>
+
+                    <a href="{% url 'contact' %}" class="text-black font-weight-bold">تماس با ما</a>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="copyright-bar">
+        <div class="container text-black font-weight-bold">
+            <p>
+                استفاده از مطالب فروشگاه اینترنتی E-Commerce فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است.
+                کلیه حقوق این سایت متعلق
+                E-Commerce می‌باشد.
+            </p>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

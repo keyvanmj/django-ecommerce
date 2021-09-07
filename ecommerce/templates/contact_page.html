@@ -1,0 +1,77 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load bootstrap4 %}
+{% block title %}
+    تماس با ما
+{% endblock %}
+
+
+{% block content %}
+    <div class="wrapper default">
+        <div class="container" id="header_section">
+            <div class="row">
+                <div class="main-content col-12 col-md-8 mx-auto">
+                    <div class="account-box checkout-page">
+                        <a href="/" class="logo text-logo">
+                            E-Commerce
+                        </a>
+                        <div class="card text-center p-4 bg-dark">
+                                <i class="fa fa-send contact-icon"></i>
+                            </div>
+                        <div class="account-box-content">
+
+                            <form class="form-account" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="checkout-title text-right text-center">فرم تماس با ما</div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                    {% bootstrap_form form %}
+
+                                    </div>
+                                    </div>
+                                 <div class="col-sm-6 mx-auto">
+                                    <div class="form-account-row form-account-submit">
+                                        <div class="parent-btn">
+                                            <button class="dk-btn dk-btn-info" type="submit">
+                                                ثبت و ارسال
+                                                <i class="fa fa-sign-in"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mini-footer" id="bg-footer">
+            <nav>
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="#"></a>
+                        </li>
+                        <li>
+                            <a id="bread_crumb" href="/">صفحه ی اصلی</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="copyright-bar">
+                <div class="container">
+                    <p>
+
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}

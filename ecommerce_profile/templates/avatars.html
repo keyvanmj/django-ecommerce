@@ -1,0 +1,73 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+{% block title %}
+    Change Profile
+{% endblock %}
+
+
+{% block content %}
+
+    <body class="index-page sidebar-collapse">
+
+    <!-- responsive-header -->
+    {% render_partial 'responsive_nav' %}
+    <!-- responsive-header -->
+
+    <div class="wrapper default">
+
+        <!-- header -->
+        {% render_partial 'header' %}
+        <!-- header -->
+        <!-- main -->
+
+        <main class="profile-user-page default">
+
+            <div class="container">
+                <div class="row">
+                    <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
+                        <div class="row">
+                            <div class="col-12">
+                                {% if messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        <ul class="messages">
+
+                                            {% for message in messages %}
+                                                <li
+                                                        {% if message.tags %}class="{{ message.tags }}"{% endif %}>
+                                                    {{ message }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+
+
+                                <div class="col-12">
+                                    <h1 class="title-tab-content">ویرایش تصویر پروفایل</h1>
+                                </div>
+                                <div class="content-section default">
+                                    
+
+                                     <ul class="profile-avatars default text-center">
+                                <li>
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{ p_form.image }}
+                                        <button type="submit" class="btn btn-success">ذخیره</button>
+                                    </form>
+                                </li>
+                            </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% include 'shared/sidebar.html' %}
+                </div>
+            </div>
+        </main>
+
+            </div>
+
+    {% render_partial 'footer' %}
+{% endblock %}

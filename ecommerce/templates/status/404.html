@@ -1,0 +1,32 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+{% load static %}
+{% block title %}
+404 not found
+{% endblock %}
+{% block content %}
+<div class="wrapper default">
+        <!-- header -->
+        <!-- header -->
+        {% include 'responsive_nav/responsive_nav_categories.html' %}
+        <!-- main -->
+        <main class="page-404">
+            <div class="container text-center">
+                <div class="page-404-title">
+                    <h1>صفحه‌ای که دنبال آن بودید پیدا نشد!</h1>
+                </div>
+                <div class="page-404-actions">
+                    <a href="{% url 'home' %}" class="page-404-action page-404-action--primary">صفحه اصلی</a>
+                    {% include 'header/search.html' %}
+                </div>
+                <div class="page-404-image">
+                    <img src="{% static 'assets/img/404.png' %}">
+                </div>
+            </div>
+        </main>
+        <!-- main -->
+        <!-- footer -->
+        {% render_partial 'footer' %}
+        <!-- footer -->
+    </div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% load static %}
+{% url 'home' as home_url %}
+{% block content %}
+    <footer class="main-footer default" id="bg-footer">
+        <div class="back-to-top">
+            <a href="#"><span class="icon bg-dark back-to-tops"><i class="now-ui-icons arrows-1_minimal-up"></i></span></a>
+        </div>
+        {% if request.path_info == home_url %}
+            <div class="container">
+                <div class="info">
+                    <div class="row">
+                        <div class="container mt-3 mb-3">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <div class="counter">
+                                        <i class="fa fa-users fa-2x"></i>
+                                        <h2 class="timer count-title count-number" data-to="{{ user_count }}"
+                                            data-speed="1500"></h2>
+                                        <p class="count-text ">کاربران</p>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="counter">
+                                        <i class="fa fa-shopping-cart fa-2x"></i>
+                                        <h2 class="timer count-title count-number" data-to="{{ product_count }}"
+                                            data-speed="1500"></h2>
+                                        <p class="count-text ">تعداد محصولات</p>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="counter">
+                                        <i class="fa fa-user fa-2x"></i>
+                                        <h2 class="timer count-title count-number" data-to="{{ on_count }}"
+                                            data-speed="1500"></h2>
+                                        <p class="count-text ">کاربران انلاین</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="site-description col-12 col-lg-7">
+                        <h3 class="site-title">{{ settings.title }}</h3>
+                        <p>
+                            {{ settings.about_us }}
+                        </p>
+                    </div>
+
+                    <div class="symbol col-12 col-lg-5 mt-5 pr-5">
+                        <div class="row">
+                            <div>
+                                <div class="p-2 text-footer"><h6><i class="fa fa-mobile-phone"></i> شماره تماس
+                                    همراه: {{ settings.mobile }}</h6></div>
+                                <div class="p-2 text-footer"><h6><i class="fa fa-phone"></i> شماره تماس
+                                    ثابت: {{ settings.phone }}</h6></div>
+                                <div class="p-2 text-footer"><h6><i class="fa fa-phone-square"></i> شماره
+                                    فکس: {{ settings.fax }}</h6></div>
+                                <div class="p-2 text-footer"><h6><i class="fa fa-map-marker"></i>
+                                    آدرس: {{ settings.address }}</h6></div>
+                            </div>
+                            <div class="footer-social mr-3 icon-bar">
+                                <a href="http://instagram.com/keyvan_mj1998" target="_blank">
+                                    <img width="70"
+                                         src="{% static 'assets/img/social_img/Instagram-Logo.wine.png' %}"/>
+                                </a>
+
+                                <a href="https://www.telegram.me/keyvanmj76" target="_blank">
+                                    <img width="70"
+                                         src="{% static 'assets/img/social_img/Telegram_(software)-Logo.wine.png' %}"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="text-center mt-5 pt-4">
+            <div class="container">
+                <p class="font-weight-bold">
+                    {{ settings.copy_right }}
+                </p>
+            </div>
+        </div>
+    </footer>
+
+{% endblock %}

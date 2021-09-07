@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% include 'shared/references/header_references.html' %}
+</head>
+<body class="index-page sidebar-collapse">
+
+{% block content %}{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% include 'shared/references/footer_references.html' %}
+{% endblock %}
+</body>
+
+</html>

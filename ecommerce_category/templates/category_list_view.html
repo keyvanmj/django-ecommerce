@@ -1,0 +1,25 @@
+{% for cat in cat.children.all %}
+    {% if cat.children.all %}
+
+        <ul>
+            <li class="list-item list-item-has-children">
+                <a href="{% url 'category_view' cat.slug %}" class="main-list-item nav-link">{{ cat.title }}
+                <i class="now-ui-icons arrows-1_minimal-left"></i>
+                </a>
+                    <li>
+                        {% include 'category_list_view.html' %}
+                    </li>
+
+            </li>
+        </ul>
+    {% else %}
+
+        <li class="list-item list-item-has-children">
+            <a href="{% url 'category_view' cat.slug %}">{{ cat.title }}</a>
+        </li>
+
+    {% endif %}
+{% endfor %}
+
+
+

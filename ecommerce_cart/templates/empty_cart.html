@@ -1,0 +1,20 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% block title %}
+Empty Cart
+{% endblock %}
+{% block content %}
+{% render_partial 'header' %}
+    {% render_partial 'responsive_nav' %}
+    <main class="cart default">
+            <div class="container text-center">
+                <div class="cart-empty">
+                    <img src="{% static 'assets/img/cart/shopping-basket-pngrepo-com.png' %}" alt="" width="400px">
+                    <div class="cart-empty-title">سبد خرید شما خالیست!</div>
+                </div>
+            </div>
+        </main>
+
+{% render_partial 'footer' %}
+{% endblock %}

@@ -1,0 +1,6 @@
+<div class="breadcrumb-section default">
+        <li><a href="/">Home</a></li>
+        {% for slug,name in breadcrumbs %}
+            <li><a href="{% url 'category_view' instance.slug %}">{{ name }}</a></li>
+        {% endfor %}
+</div>

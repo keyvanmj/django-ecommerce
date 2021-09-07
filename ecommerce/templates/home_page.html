@@ -1,0 +1,244 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load thumbnail %}
+{% block title %}
+    Home Page
+{% endblock %}
+{% block content %}
+
+    <!-- responsive-header -->
+    {% render_partial 'responsive_nav' %}
+    <!-- responsive-header -->
+    <div class="wrapper default">
+        <!-- header -->
+        {% render_partial 'header' %}
+        <!-- header -->
+
+        <main class="main default">
+            <div class="container">
+                <!-- banner -->
+                {% include 'shared/banner.html' %}
+                <!-- banner -->
+                <div class="row">
+                    <aside class="sidebar col-12 col-lg-3 order-2 order-lg-1" id="sidebar_">
+                        <div class="card">
+                            <table class="table">
+                                <thead>
+                                <tr class="bg-dark">
+                                    <td><a href="" class="text-white">محبوب ترین محصولات</a></td>
+                                    <td></td>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+                                {% for f_p in favourite_product %}
+                                    <tr id="table_">
+                                        <td><a href="{{ f_p.get_absolute_url }}" id="text_color">{{ f_p.title }}</a>
+                                        </td>
+                                        {% thumbnail f_p.list_image '100x100' as im %}
+                                            <td><img src="{{ im.url }}" alt="" class="pull-left"></td>
+                                        {% endthumbnail %}
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <a href="/products/filter?action=favourites" class="text-black">
+                                <div class="more-box table btn btn-block" id="more_">
+                                    <p>مشاهده ی موارد بیشتر ...</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="widget-suggestion widget card">
+                            <header class="card-header">
+                                <h3 class="card-title">پیشنهاد لحظه ای</h3>
+                            </header>
+                            <div id="progressBar">
+                                <div class="slide-progress"
+                                     style="width: 100%; transition: width 5000ms ease 0s;"></div>
+                            </div>
+                            <div id="suggestion-slider" class="owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+
+
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage"
+                                         style="transform: translate3d(401px, 0px, 0px); transition: all 0.25s ease 0s; width: 1602px;">
+                                        {% for p in moment_recommended %}
+                                        <div class="owl-item {% if forloop.first %}active{% endif %}" style="width: 200.25px;">
+                                            <div class="item">
+                                                <a href="{% url 'product_detail' slug=p.slug pk=p.pk %}">
+                                                    {% thumbnail p.list_image '200x200' as im %}
+                                                    <img src="{{ im.url }}" class="w-100"
+                                                         alt="moment-recommended-product-image">
+                                                    {% endthumbnail %}
+                                                </a>
+                                                <h3 class="product-title">
+                                                    <a href="#">{{ p.title }}</a>
+                                                </h3>
+                                                <div class="price">
+                                                    <span class="amount">{{ p.price}}<span>تومان</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                                <div class="owl-nav disabled">
+                                    <button type="button" role="presentation" class="owl-prev"><span
+                                            aria-label="Previous">‹</span></button>
+                                    <button type="button" role="presentation" class="owl-next"><span
+                                            aria-label="Next">›</span></button>
+                                </div>
+                                <div class="owl-dots disabled"></div>
+                            </div>
+                        </div>
+
+
+                    </aside>
+                    <div class="col-12 col-lg-9 order-1 order-lg-2">
+                        <section id="amazing-slider" class="carousel slide carousel-fade card" data-ride="carousel">
+                            <div class="row m-0">
+                                <ol class="carousel-indicators pr-0 d-flex flex-column col-lg-3">
+                                    {% for p in most_view %}
+                                        <li class="{% if forloop.first %}active{% endif %}"
+                                            data-target="#amazing-slider"
+                                            data-slide-to="{{ forloop.counter0 }}">
+                                            <span>{{ p.title }}</span>
+                                        </li>
+                                    {% endfor %}
+
+
+                                    <li class="view-all">
+                                        <a href="/products/filter?action=most_view"
+                                           class="btn btn-primary btn-block hvr-sweep-to-left">
+                                            <i class="fa fa-arrow-left"></i>مشاهده همه پر بازدیدها
+                                        </a>
+                                    </li>
+
+                                </ol>
+                                <div class="carousel-inner p-0 col-12 col-lg-9">
+                                    {% for i in most_view %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <div class="row m-0">
+                                                <div class="right-col col-5 d-flex align-items-center">
+                                                    <a class="w-100 text-center" href="{{ i.get_absolute_url }}">
+                                                        {% thumbnail i.list_image '300x300' as im %}
+                                                            <img src="{{ im.url }}"
+                                                                 class="img-fluid pb-5" alt="">
+                                                        {% endthumbnail %}
+                                                    </a>
+                                                </div>
+                                                <div class="left-col col-7">
+
+                                                    <h3>{{ i.title }}</h3>
+                                                    <div class="price mb-4">
+                                                        <ins><span>{{ i.price }}<span>تومان</span></span></ins>
+                                                    </div>
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">{{ i.specification }}</li>
+                                                    </ul>
+                                                    <hr>
+                                                    <a href="{{ i.get_absolute_url }}" class="finished btn"
+                                                       style="--button-hover-bg: lime"> مشاهده محصول </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </section>
+                        <div class="row" id="amazing-slider-responsive">
+                            <div class="col-12">
+                                <div class="widget widget-product card">
+                                    <header class="card-header">
+                                        <a href="/products/filter?action=most_view" class="view-all">مشاهده همه</a>
+                                    </header>
+
+                                    {% if most_view %}
+                                        <header class="card-header mb-0 ml-3 mr-3 font-weight-bold pb-3">
+                                            <span>محصولات پربازدید ماه</span>
+                                        </header>
+
+                                        {% include 'recommendation/recommend.html' with products=most_view %}
+
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        {% if recently_viewed %}
+                            <div class="widget widget-product card">
+
+                                <header class="card-header mb-0 ml-3 mr-3 font-weight-bold pb-3">
+                                    <span>محصولات بازدید شده از قسمت جستجو</span>
+                                </header>
+
+                                {% include 'recommendation/recommend.html' with products=recently_viewed %}
+                            </div>
+                        {% endif %}
+
+                        {% if featured %}
+                            <div class="widget widget-product card">
+                                <header class="card-header mb-0 ml-3 mr-3 font-weight-bold pb-3">
+                                    <span>محصولات پیشنهادی ویژه</span>
+                                </header>
+                                {% include 'recommendation/recommend.html' with products=featured %}
+                            </div>
+                        {% endif %}
+
+
+                        {% if view_recs %}
+                            <div class="widget widget-product card">
+
+                                <header class="card-header mb-0 ml-3 mr-3 font-weight-bold pb-3">
+                                    <span>محصولات پیشنهادی</span>
+                                </header>
+                                {% include 'recommendation/recommend.html' with products=view_recs %}
+                            </div>
+                        {% endif %}
+
+
+                        {% if search_recs %}
+                            <div class="widget widget-product card">
+
+                                <header class="card-header mb-0 ml-3 mr-3 font-weight-bold pb-3">
+                                    <span>محصولات پیشنهادی از قسمت جستجو</span>
+                                </header>
+                                {% include 'recommendation/recommend.html' with products=search_recs %}
+                            </div>
+                        {% endif %}
+
+
+
+
+                        {% if most_sell %}
+                            <div class="widget widget-product card">
+                            <a href="{% url 'filter_product' %}?action=most_sells" class="pull-left">مشاهده همه</a>
+                            <header class="card-header">
+                                <h5 class="card-title">
+                                    <span>پرفروش ترین محصولات</span>
+                                </h5>
+                            </header>
+                            {% include 'recommendation/recommend.html' with products=most_sell %}
+                        {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+        {% render_partial 'footer' %}
+
+    </div>
+{% endblock %}
