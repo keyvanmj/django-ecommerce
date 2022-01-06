@@ -121,11 +121,11 @@ WSGI_APPLICATION = 'Django_ECommerce.wsgi.application'
 if __name__ == '__main__':
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(CONTENT_DIR, 'tmp/emails')
-EMAIL_HOST_USER = 'keyvanmj5@gmail.com'
-DEFAULT_FROM_EMAIL = 'keyvanmj5@gmail.com'
+EMAIL_HOST_USER = 'Email'
+DEFAULT_FROM_EMAIL = 'Email'
 EMAIL_HOST = 'smtp.gmail.com'
 
-EMAIL_HOST_PASSWORD = '49557682'
+EMAIL_HOST_PASSWORD = '********'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
